@@ -5,46 +5,62 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
     <style>
-        /* Ensure the "No" button has position relative to its container */
+        /* Prevent scrolling caused by moving elements */
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrolling */
+            height: 100%; /* Make sure the body fits the viewport */
+        }
+
+        .main {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
         #moveButton {
+            font-size: 35px;
+            background-color: #FFB8BF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
             position: absolute; /* Allow the button to move freely */
             transition: transform 0.2s ease; /* Smooth movement */
+        }
+
+        button {
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="main">
         <div class="Hey">
-            <h2></h2>
-            <label style="font-size:35px;">Do you wanna go out? </label>
+            <label style="font-size:35px;">Do you wanna go out?</label>
             <br>
             <a href="page3.html">
                 <button style="font-size:35px; background-color: #FFB8BF;">Yes</button>
             </a>
             <a>
-                <button id="moveButton" onmouseover="moveButton()" ontouchstart="moveButton()" 
-                    style="font-size:35px; background-color: #FFB8BF;">No</button>
+                <button id="moveButton" 
+                        onmouseover="moveButton()" 
+                        ontouchstart="moveButton()">
+                    No
+                </button>
                 <audio id="moveSound" preload="auto">
                     <source src="Aww.mp3" type="audio/mp3">
                     Your browser does not support the audio element.
                 </audio>
             </a>
         </div>
-
-        <div class="slideshow-container">
-            <div class="mySlides">
-                <img src="cutu1.png" alt="Image 1">
-            </div>
-            <div class="mySlides">
-                <img src="cutu2.png" alt="Image 2">
-            </div>
-        </div>
     </div>
 
     <script>
-        // Function to move the button
         function moveButton() {
             const button = document.getElementById("moveButton");
             const newPosition = getRandomPosition(button);
@@ -52,50 +68,27 @@
             // Apply new position
             button.style.transform = `translate(${newPosition.x}px, ${newPosition.y}px)`;
 
-            // Play sound
+            // Play movement sound
             playMoveSound();
         }
 
-        // Calculate a random position within the screen bounds
         function getRandomPosition(button) {
             const buttonWidth = button.offsetWidth;
             const buttonHeight = button.offsetHeight;
 
-            const maxX = window.innerWidth - buttonWidth; // Prevent overflow
-            const maxY = window.innerHeight - buttonHeight; // Prevent overflow
+            // Ensure the button stays within the viewport
+            const maxX = window.innerWidth - buttonWidth;
+            const maxY = window.innerHeight - buttonHeight;
 
-            const randomX = Math.random() * maxX; // Generate a random x position
-            const randomY = Math.random() * maxY; // Generate a random y position
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
 
             return { x: randomX, y: randomY };
         }
 
-        // Play the movement sound
         function playMoveSound() {
             const sound = document.getElementById("moveSound");
             sound.play();
-        }
-
-        // Slideshow functionality
-        let slideIndex = 0;
-        showSlides();
-
-        function showSlides() {
-            let i;
-            const slides = document.getElementsByClassName("mySlides");
-
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-
-            slideIndex++;
-
-            if (slideIndex > slides.length) {
-                slideIndex = 1;
-            }
-
-            slides[slideIndex - 1].style.display = "block";
-            setTimeout(showSlides, 800); // Change slide every 800 milliseconds
         }
     </script>
 </body>
