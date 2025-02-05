@@ -57,19 +57,29 @@
         }
 
         // Calculate a random position within the screen bounds
-        function getRandomPosition(button) {
-            const buttonWidth = button.offsetWidth;
-            const buttonHeight = button.offsetHeight;
+       function getRandomPosition(button) {
+           const buttonWidth = button.offsetWidth;
+           const buttonHeight = button.offsetHeight;
+           const windowWidth = window.innerWidth;
+           const windowHeight = window.innerHeight;
 
-            const maxX = window.innerWidth - buttonWidth; // Prevent overflow
-            const maxY = window.innerHeight - buttonHeight; // Prevent overflow
-
-            const randomX = Math.random() * maxX; // Generate a random x position
-            const randomY = Math.random() * maxY; // Generate a random y position
-
-            return { x: randomX, y: randomY };
-        }
-
+           // Define a smaller movement area (e.g., 80% of the screen)
+           const maxMovementX = windowWidth * 0.8;
+           const maxMovementY = windowHeight * 0.8;
+    
+           const randomX = Math.random() * maxMovementX;
+           const randomY = Math.random() * maxMovementY;
+    
+           // Center the movement area
+           const centerX = windowWidth / 2;
+           const centerY = windowHeight / 2;
+    
+           // Calculate adjusted positions
+           const adjustedX = centerX - maxMovementX / 2 + randomX;
+           const adjustedY = centerY - maxMovementY / 2 + randomY;
+    
+        return { x: adjustedX, y: adjustedY };
+}
         // Play the movement sound
         function playMoveSound() {
             const sound = document.getElementById("moveSound");
