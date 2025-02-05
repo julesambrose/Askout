@@ -64,8 +64,8 @@
            const windowHeight = window.innerHeight;
 
            // Define a smaller movement area (e.g., 80% of the screen)
-          const maxX = Math.max(0, Math.min(windowWidth - buttonWidth, windowWidth / 2)); 
-          const maxY = Math.max(0, Math.min(windowHeight - buttonHeight, windowHeight / 2));
+          const maxMovementX = windowWidth * 0.8;
+          const maxMovementY = windowHeight * 0.8;
 
     
            const randomX = Math.random() * maxMovementX;
