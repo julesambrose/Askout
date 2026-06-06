@@ -2,35 +2,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Hi You!!</title>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="index.css">
+    <title>Hi You!!</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
-            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #583759;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to top, #FDEEF4, #F98B88);
         }
 
         .main {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .Hey {
-            margin-bottom: 30px;
+            gap: 30px;
         }
 
         .Hey label {
@@ -38,31 +31,45 @@
             font-weight: bold;
         }
 
-        .Hey button {
+        #buttonArea {
+            position: relative;
+            width: 450px;
+            height: 180px;
+            margin: 20px auto;
+        }
+
+        .yes-btn,
+        #moveButton {
             font-size: 35px;
             background-color: #FFB8BF;
+            color: #583759;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 10px 20px;
             cursor: pointer;
-            margin: 10px;
         }
 
-        /* Moving No Button */
+        .yes-btn {
+            position: absolute;
+            left: 80px;
+            top: 60px;
+        }
+
         #moveButton {
-            position: fixed;
-            z-index: 1000;
-            transition: all 0.2s ease;
+            position: absolute;
+            left: 250px;
+            top: 60px;
+            transition: left 0.15s ease, top 0.15s ease;
         }
 
-        /* Slideshow */
         .slideshow-container {
-            max-width: 350px;
-            width: 100%;
+            width: 300px;
         }
 
         .mySlides {
             display: none;
+            mix-blend-mode: multiply;
+            opacity: 0.9;
         }
 
         .mySlides img {
@@ -74,26 +81,28 @@
 <body>
 
     <div class="main">
+
         <div class="Hey">
-            <h2></h2>
-
             <label>Do you wanna go out?</label>
-            <br><br>
 
-            <a href="page3.html">
-                <button>Yes</button>
-            </a>
+            <div id="buttonArea">
 
-            <button id="moveButton"
+                <a href="page3.html">
+                    <button class="yes-btn">Yes</button>
+                </a>
+
+                <button
+                    id="moveButton"
                     onmouseover="moveButton()"
-                    onmousedown="moveButton()"
-                    ontouchstart="moveButton()">
-                No
-            </button>
+                    ontouchstart="moveButton()"
+                    onmousedown="moveButton()">
+                    No
+                </button>
+
+            </div>
 
             <audio id="moveSound" preload="auto">
                 <source src="Aww.mp3" type="audio/mp3">
-                Your browser does not support the audio element.
             </audio>
         </div>
 
@@ -106,26 +115,19 @@
                 <img src="cutu2.png" alt="Image 2">
             </div>
         </div>
+
     </div>
 
     <script>
-        // Initial button position
-        window.onload = function () {
-            const button = document.getElementById("moveButton");
-
-            button.style.left = "60%";
-            button.style.top = "55%";
-        };
-
-        // Move button to a random place
         function moveButton() {
             const button = document.getElementById("moveButton");
+            const area = document.getElementById("buttonArea");
 
-            const maxX = window.innerWidth - button.offsetWidth - 20;
-            const maxY = window.innerHeight - button.offsetHeight - 20;
+            const maxX = area.clientWidth - button.offsetWidth;
+            const maxY = area.clientHeight - button.offsetHeight;
 
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
 
             button.style.left = randomX + "px";
             button.style.top = randomY + "px";
@@ -133,18 +135,16 @@
             playMoveSound();
         }
 
-        // Play sound effect
         function playMoveSound() {
             const sound = document.getElementById("moveSound");
 
             sound.currentTime = 0;
 
-            sound.play().catch(function () {
+            sound.play().catch(() => {
                 // Ignore autoplay restrictions
             });
         }
 
-        // Slideshow functionality
         let slideIndex = 0;
         showSlides();
 
