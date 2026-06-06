@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,38 +6,102 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="index.css">
+
     <style>
-        /* Ensure the "No" button has position relative to its container */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .Hey {
+            margin-bottom: 30px;
+        }
+
+        .Hey label {
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .Hey button {
+            font-size: 35px;
+            background-color: #FFB8BF;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        /* Moving No Button */
         #moveButton {
-            position: absolute; /* Allow the button to move freely */
-            transition: transform 0.2s ease; /* Smooth movement */
+            position: fixed;
+            z-index: 1000;
+            transition: all 0.2s ease;
+        }
+
+        /* Slideshow */
+        .slideshow-container {
+            max-width: 350px;
+            width: 100%;
+        }
+
+        .mySlides {
+            display: none;
+        }
+
+        .mySlides img {
+            width: 100%;
+            border-radius: 15px;
         }
     </style>
 </head>
 <body>
+
     <div class="main">
         <div class="Hey">
             <h2></h2>
-            <label style="font-size:35px;">Do you wanna go out? </label>
-            <br>
+
+            <label>Do you wanna go out?</label>
+            <br><br>
+
             <a href="page3.html">
-                <button style="font-size:35px; background-color: #FFB8BF;">Yes</button>
+                <button>Yes</button>
             </a>
-            <a>
-                <button id="moveButton" onmouseover="moveButton()" ontouchstart="moveButton()" 
-                    style="font-size:35px; background-color: #FFB8BF;">No</button>
-                <audio id="moveSound" preload="auto">
-                    <source src="Aww.mp3" type="audio/mp3">
-                    Your browser does not support the audio element.
-                </audio>
-            </a>
+
+            <button id="moveButton"
+                    onmouseover="moveButton()"
+                    onmousedown="moveButton()"
+                    ontouchstart="moveButton()">
+                No
+            </button>
+
+            <audio id="moveSound" preload="auto">
+                <source src="Aww.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
         </div>
 
         <div class="slideshow-container">
             <div class="mySlides">
                 <img src="cutu1.png" alt="Image 1">
             </div>
+
             <div class="mySlides">
                 <img src="cutu2.png" alt="Image 2">
             </div>
@@ -44,47 +109,39 @@
     </div>
 
     <script>
-        // Function to move the button
+        // Initial button position
+        window.onload = function () {
+            const button = document.getElementById("moveButton");
+
+            button.style.left = "60%";
+            button.style.top = "55%";
+        };
+
+        // Move button to a random place
         function moveButton() {
             const button = document.getElementById("moveButton");
-            const newPosition = getRandomPosition(button);
 
-            // Apply new position
-            button.style.transform = `translate(${newPosition.x}px, ${newPosition.y}px)`;
+            const maxX = window.innerWidth - button.offsetWidth - 20;
+            const maxY = window.innerHeight - button.offsetHeight - 20;
 
-            // Play sound
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            button.style.left = randomX + "px";
+            button.style.top = randomY + "px";
+
             playMoveSound();
         }
 
-        // Calculate a random position within the screen bounds
-       function getRandomPosition(button) {
-           const buttonWidth = button.offsetWidth;
-           const buttonHeight = button.offsetHeight;
-           const windowWidth = window.innerWidth;
-           const windowHeight = window.innerHeight;
-
-           // Define a smaller movement area (e.g., 80% of the screen)
-          const maxMovementX = windowWidth * 0.8;
-          const maxMovementY = windowHeight * 0.8;
-
-    
-           const randomX = Math.random() * maxMovementX;
-           const randomY = Math.random() * maxMovementY;
-    
-           // Center the movement area
-           const centerX = windowWidth / 2;
-           const centerY = windowHeight / 2;
-    
-           // Calculate adjusted positions
-           const adjustedX = centerX - maxMovementX / 2 + randomX;
-           const adjustedY = centerY - maxMovementY / 2 + randomY;
-    
-        return { x: adjustedX, y: adjustedY };
-}
-        // Play the movement sound
+        // Play sound effect
         function playMoveSound() {
             const sound = document.getElementById("moveSound");
-            sound.play();
+
+            sound.currentTime = 0;
+
+            sound.play().catch(function () {
+                // Ignore autoplay restrictions
+            });
         }
 
         // Slideshow functionality
@@ -92,10 +149,9 @@
         showSlides();
 
         function showSlides() {
-            let i;
             const slides = document.getElementsByClassName("mySlides");
 
-            for (i = 0; i < slides.length; i++) {
+            for (let i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none";
             }
 
@@ -106,8 +162,11 @@
             }
 
             slides[slideIndex - 1].style.display = "block";
-            setTimeout(showSlides, 800); // Change slide every 800 milliseconds
+
+            setTimeout(showSlides, 800);
         }
     </script>
+
 </body>
 </html>
+```
